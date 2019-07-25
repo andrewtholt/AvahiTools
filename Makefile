@@ -3,7 +3,7 @@ CFLAGS=-g
 
 BINS=register-client 
 
-LIBS=-lsqlite3 -lavahi-client -lavahi-common
+LIBS= -lavahi-client -lavahi-common # -lsqlite3 
 
 all:	$(BINS)
 
