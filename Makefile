@@ -8,10 +8,10 @@ LIBS= -lavahi-client -lavahi-common # -lsqlite3
 all:	$(BINS)
 
 register-client:    register-client.c
-	gcc $(CLAGS) register-client.c -o $@ -lavahi-client -lavahi-common
+	gcc $(CFLAGS) register-client.c -o $@ -lavahi-client -lavahi-common
 
 browse:    browse.c
-	gcc $(CLAGS) browse.c -o $@ -lavahi-client -lavahi-common
+	gcc $(CFLAGS) browse.c -o $@ -lavahi-client -lavahi-common
 
 install:
 	strip register-client

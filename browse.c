@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <strings.h>
 #include <time.h>
 #include <avahi-client/client.h>
 #include <avahi-client/lookup.h>
@@ -119,9 +120,22 @@ static void client_callback(AvahiClient *c, AvahiClientState state, AVAHI_GCC_UN
     }
 }
 
-int main(AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char*argv[]) {
+int main(int argc, char*argv[]) {
     AvahiClient *client = NULL;
     AvahiServiceBrowser *sb = NULL;
+
+    char svc[255] ;
+    bzero(svc,255);
+
+    if(argc !=2 ) {
+        printf("Usage: browse service\n");
+        exit(1);
+    }
+
+    sprintf(svc,"_%s._tcp", argv[1]);
+
+    printf("%s\n", svc);
+
     int error;
     int ret = 1;
     /* Allocate main loop object */
@@ -137,7 +151,8 @@ int main(AVAHI_GCC_UNUSED int argc, AVAHI_GCC_UNUSED char*argv[]) {
         goto fail;
     }
     /* Create the service browser */
-    if (!(sb = avahi_service_browser_new(client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, "_http._tcp", NULL, 0, browse_callback, client))) {
+//    if (!(sb = avahi_service_browser_new(client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, "_sleeper._tcp", NULL, 0, browse_callback, client))) {
+    if (!(sb = avahi_service_browser_new(client, AVAHI_IF_UNSPEC, AVAHI_PROTO_UNSPEC, svc, NULL, 0, browse_callback, client))) {
         fprintf(stderr, "Failed to create service browser: %s\n", avahi_strerror(avahi_client_errno(client)));
         goto fail;
     }
